@@ -75,6 +75,50 @@ Run `opencode` in your terminal, then execute the `/connect` command to connect 
 
 Your Opencode session is now connected to your local LLM server and ready to use.
 
+### 11. Expose Your Local LLM to Other Devices
+
+You can access your local LLM from other devices on your network — such as a phone for chat or a laptop for code and chat — using Tailscale.
+
+#### Step 1: Install Tailscale
+
+Download and install [Tailscale](https://tailscale.com) (freemium, free for personal use) on your Mac Mini and on any device you want to connect from (laptop, phone, etc.).
+
+#### Step 2: Join the Same Tailnet
+
+Set up Tailscale on your Mac Mini (the server). Then join the same Tailscale network (called a `tailnet`) from your other devices.
+
+#### Step 3: Find the Mac Mini's VPN IP
+
+In the Tailscale dashboard or app, find the VPN IP address assigned to your Mac Mini.
+
+#### Step 4: Configure Opencode on the Remote Device
+
+On your laptop (or other device), edit `~/.config/opencode/opencode.jsonc` and replace the `baseURL` with the Mac Mini's VPN IP address (keeping the port `1234`):
+
+```json
+{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "lmstudio": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "LM Studio (local)",
+      "options": {
+        "baseURL": "http://<MAC_MINI_VPN_IP>:1234/v1"
+      },
+      "models": {
+        "qwen/qwen3.6-35b-a3b": {
+          "name": "qwen/qwen3.6-35b-a3b"
+        }
+      }
+    }
+  }
+}
+```
+
+#### Step 5: Connect
+
+Run `opencode` on your laptop and execute the `/connect` command. Enter the API key generated in Step 5 of the main setup, and your session will connect to the Mac Mini's local LLM over Tailscale — working out of the box.
+
 ---
 
 *This README was generated with the local LLM.*
