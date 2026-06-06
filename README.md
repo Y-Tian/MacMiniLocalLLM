@@ -1,1 +1,2 @@
-# mac-mini-local-llm
+# Mac Mini Local LLM Setup
+
